@@ -26,7 +26,7 @@ for song in songs:
     iterations += 1
     artist = song.split()[0]
     title = song.split()[1]
-    link="http://www.azlyrics.com/lyrics/"+artist+"/"+title+".html"
+    link="http://www.azlyrics.com/lyrics/"+title+"/"+artist+".html"
     print(link)
     html = str(urllib.request.urlopen(link).read()).split("<!-- start of lyrics -->")[1].split("<!-- end of lyrics -->")[0]
 
