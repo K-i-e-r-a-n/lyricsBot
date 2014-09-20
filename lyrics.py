@@ -16,7 +16,8 @@ def intopfives(topfivenums, number):
             return x;
     return -1;
 
-file = open("songs.txt", 'r')
+filename = input("Enter file name: ")
+file = open(filename, 'r')
 songs = file.readlines()
 
 alluniques = []
@@ -24,9 +25,9 @@ iterations = 0
 
 for song in songs:
     iterations += 1
-    artist = song.split()[0]
-    title = song.split()[1]
-    link="http://www.azlyrics.com/lyrics/"+title+"/"+artist+".html"
+    title = song.split()[0]
+    artist = song.split()[1]
+    link="http://www.azlyrics.com/lyrics/"+artist+"/"+title+".html"
     print(link)
     html = str(urllib.request.urlopen(link).read()).split("<!-- start of lyrics -->")[1].split("<!-- end of lyrics -->")[0]
 
