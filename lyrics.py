@@ -19,7 +19,11 @@ def intopfives(topfivenums, number):
 file = open("songs.txt", 'r')
 songs = file.readlines()
 
+alluniques = []
+iterations = 0
+
 for song in songs:
+    iterations += 1
     artist = song.split()[0]
     title = song.split()[1]
     link="http://www.azlyrics.com/lyrics/"+artist+"/"+title+".html"
@@ -63,4 +67,25 @@ for song in songs:
 
     print("\n")
 
+    alluniques += uniques
+
 file.close()
+
+#averages and top 5 of entire list
+print("Average Total Uniques: " + str(int(len(alluniques)/2/iterations)))
+
+topfivenums = [0, 0, 0, 0, 0]
+topfivewords = ["", "", "", "", ""]
+
+for x in range(1, len(alluniques), 2):
+    index = intopfives(topfivenums, alluniques[x])
+    if (index != -1):
+        if (contains(commonwords, alluniques[x-1]) == False):
+            topfivenums.insert(index, alluniques[x])
+            topfivewords.insert(index, alluniques[x-1])
+            topfivenums.pop(5)
+            topfivewords.pop(5)
+
+for x in range(0, 5):
+    print (topfivewords[x] + " " + str(topfivenums[x]))
+
