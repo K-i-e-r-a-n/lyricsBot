@@ -2,7 +2,7 @@ import urllib.request
 import re
 import string
 
-commonwords = ["the", "a", "and", "to", "for", "of", "in"]
+commonwords = ["the", "a", "and", "to", "for", "of", "in", "you", "i", "me", "it", "we", "be", "on", "my", "your", "all", "no", "im", "was"]
 
 def contains(array, myword):
     for word in array:
@@ -21,13 +21,12 @@ file = open(filename, 'r')
 songs = file.readlines()
 
 alluniques = []
+totaluniques = 0
 iterations = 0
 
 for song in songs:
     iterations += 1
-    title = song.split()[0]
-    artist = song.split()[1]
-    link="http://www.azlyrics.com/lyrics/"+artist+"/"+title+".html"
+    link = song
     print(link)
     html = str(urllib.request.urlopen(link).read()).split("<!-- start of lyrics -->")[1].split("<!-- end of lyrics -->")[0]
 
@@ -49,6 +48,13 @@ for song in songs:
                     uniques[x+1] += 1
         else:
             uniques.extend([word, 1])
+            
+        if (contains(alluniques, word)):
+            for x in range(0, len(alluniques)):
+                if (alluniques[x] == word):
+                    alluniques[x+1] += 1
+        else:
+            alluniques.extend([word, 1])
 
     topfivenums = [0, 0, 0, 0, 0]
     topfivewords = ["", "", "", "", ""]
@@ -62,18 +68,16 @@ for song in songs:
                 topfivenums.pop(5)
                 topfivewords.pop(5)
     print("Total Uniques: " + str(int(len(uniques)/2)))
+    totaluniques += int(len(uniques)/2)
 
     for x in range(0, 5):
         print (topfivewords[x] + " " + str(topfivenums[x]))
 
     print("\n")
 
-    alluniques += uniques
-
 file.close()
 
-#averages and top 5 of entire list
-print("Average Total Uniques: " + str(int(len(alluniques)/2/iterations)))
+print("Average Total Uniques: " + str(totaluniques/iterations))
 
 topfivenums = [0, 0, 0, 0, 0]
 topfivewords = ["", "", "", "", ""]
