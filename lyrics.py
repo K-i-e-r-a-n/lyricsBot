@@ -16,9 +16,23 @@ def intopfives(topfivenums, number):
             return x;
     return -1;
 
-filename = input("Enter file name: ")
-file = open(filename, 'r')
-songs = file.readlines()
+#WIP code - started by Kieran
+#The intention is for the user to enter an artist, then it parses out song links from the a-z lyrics website,
+#then performs the regular analysis on the words in the songs.
+artist = input("Enter artist name: ")
+artistLink = "http://www.azlyrics.com/" + artist[0] + "/" + artist + ".html"
+print(artistLink)
+html = str(urllib.request.urlopen(artistLink).read()).split("<!-- start of song list -->")[1].split("<!-- end of song list -->")[0]
+html = html.split("<script type=\"text/javascript\">")[0] #We don't want all of the javascript that generates the html because it is harder to parse.
+regex = r"<a href=\"([^\"\']*)\" target=\"_blank\">([^\<\>]*)<\/a>" #matches the specific case of hyperlink that has the song link
+matches = re.findall(regex, html)
+print(matches)
+
+
+
+#filename = input("Enter file name: ")
+#file = open(filename, 'r')
+#songs = file.readlines()
 
 alluniques = []
 totaluniques = 0
