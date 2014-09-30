@@ -21,7 +21,7 @@ def intopfives(topfivenums, number):
 #The intention is for the user to enter an artist, then it parses out song links from the a-z lyrics website,
 #then performs the regular analysis on the words in the songs.
 
-#az-lyrics page lookup by band name - I'm trying to use google results to grab the URL
+#az-lyrics page lookup by band name - kind of sketchy (some kind of search and then html parsing would probably be better
 artist = input("Enter artist name: ")
 artist = artist.lower()
 artist = re.sub("\d+", "", artist) #remove trailing numbers (well, actually, any numbers, but I haven't devoted enough time to figuring this out right now)
