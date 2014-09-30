@@ -1,6 +1,7 @@
 import urllib.request
 import re
 import string
+import time
 
 commonwords = ["the", "a", "and", "to", "for", "of", "in", "you", "i", "me", "it", "we", "be", "on", "my", "your", "all", "no", "im", "was"]
 
@@ -19,16 +20,28 @@ def intopfives(topfivenums, number):
 #WIP code - started by Kieran
 #The intention is for the user to enter an artist, then it parses out song links from the a-z lyrics website,
 #then performs the regular analysis on the words in the songs.
+
+#az-lyrics page lookup by band name - I'm trying to use google results to grab the URL
 artist = input("Enter artist name: ")
+artist = artist.lower()
+artist = re.sub("\d+", "", artist) #remove trailing numbers (well, actually, any numbers, but I haven't devoted enough time to figuring this out right now)
+artist = re.sub(r"\s+", '', artist) #get rid of whitespace
+if (artist.startswith("the")): #remove leading 'the'
+    artist = artist.replace("the", "", 1)
+print("Artist: " + artist)
 artistLink = "http://www.azlyrics.com/" + artist[0] + "/" + artist + ".html"
 print(artistLink)
+
+#get songs urls from the artist page:
+songs = []
 html = str(urllib.request.urlopen(artistLink).read()).split("<!-- start of song list -->")[1].split("<!-- end of song list -->")[0]
 html = html.split("<script type=\"text/javascript\">")[0] #We don't want all of the javascript that generates the html because it is harder to parse.
 regex = r"<a href=\"([^\"\']*)\" target=\"_blank\">([^\<\>]*)<\/a>" #matches the specific case of hyperlink that has the song link
 matches = re.findall(regex, html)
 print(matches)
-
-
+for t in matches:
+    songs.append(t[0].replace("../", "http://www.azlyrics.com/"))
+print(songs)
 
 #filename = input("Enter file name: ")
 #file = open(filename, 'r')
@@ -88,8 +101,7 @@ for song in songs:
         print (topfivewords[x] + " " + str(topfivenums[x]))
 
     print("\n")
-
-file.close()
+    time.sleep(.5) # don't spam HTTP requests at servers too quickly, they dont like that
 
 print("Average Total Uniques: " + str(totaluniques/iterations))
 
