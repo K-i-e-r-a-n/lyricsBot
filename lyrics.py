@@ -38,10 +38,10 @@ html = str(urllib.request.urlopen(artistLink).read()).split("<!-- start of song 
 html = html.split("<script type=\"text/javascript\">")[0] #We don't want all of the javascript that generates the html because it is harder to parse.
 regex = r"<a href=\"([^\"\']*)\" target=\"_blank\">([^\<\>]*)<\/a>" #matches the specific case of hyperlink that has the song link
 matches = re.findall(regex, html)
-print(matches)
+#print(matches)
 for t in matches:
     songs.append(t[0].replace("../", "http://www.azlyrics.com/"))
-print(songs)
+#print(songs)
 
 #filename = input("Enter file name: ")
 #file = open(filename, 'r')
@@ -103,7 +103,7 @@ for song in songs:
     print("\n")
     time.sleep(.5) # don't spam HTTP requests at servers too quickly, they dont like that
 
-print("Average Total Uniques: " + str(totaluniques/iterations))
+print("Average Total Uniques: " + "{0:.2f}".format(totaluniques/iterations))
 
 topfivenums = [0, 0, 0, 0, 0]
 topfivewords = ["", "", "", "", ""]
